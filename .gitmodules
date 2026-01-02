@@ -1,6 +1,6 @@
-[submodule "src/picorv32"]
-	path = src/picorv32
-	url = https://github.com/YosysHQ/picorv32.git
 [submodule "src/axi"]
 	path = src/axi
 	url = https://github.com/pulp-platform/axi.git
+[submodule "src/picorv32"]
+	path = src/picorv32
+	url = https://github.com/YosysHQ/picorv32.git
