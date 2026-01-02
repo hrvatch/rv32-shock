@@ -4,3 +4,9 @@
 [submodule "src/picorv32"]
 	path = src/picorv32
 	url = https://github.com/YosysHQ/picorv32.git
+[submodule "src/axi4_lite_scratchpad"]
+	path = src/axi4_lite_scratchpad
+	url = https://github.com/hrvatch/axi4_lite_scratchpad.git
+[submodule "src/axi_led"]
+	path = src/axi_led
+	url = https://github.com/hrvatch/axi_led.git
