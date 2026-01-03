@@ -10,7 +10,8 @@ package picorv32_soc_pkg;
   // 1. Scratchpad memory 
   // 2. UART
   // 3. LEDs
-  parameter int unsigned AXI_SLAVE_NBR_p = 3;
+  // 4. Timer/Counter
+  parameter int unsigned AXI_SLAVE_NBR_p = 4;
 
   // AXI address width
   parameter int unsigned AXI_ADDR_BW_p = 32;
@@ -22,7 +23,7 @@ package picorv32_soc_pkg;
   parameter axi_pkg::xbar_cfg_t AXI_XBAR_CFG_p = '{
     NoSlvPorts:   AXI_MASTER_NBR_p,
     NoMstPorts:   AXI_SLAVE_NBR_p, 
-    MaxMstTrans:  3,
+    MaxMstTrans:  4,
     MaxSlvTrans:  1,
     FallThrough:  1'b1,
     LatencyMode:  axi_pkg::CUT_ALL_AX,
@@ -36,9 +37,10 @@ package picorv32_soc_pkg;
 
   // AXI address map
   parameter rule_t [AXI_XBAR_CFG_p.NoAddrRules-1:0] AXI_ADDR_MAP_p = '{
-    '{idx: 32'd2, start_addr: 32'h0002_0000, end_addr: 32'h0002_ffff}, // LEDs (4k)
-    '{idx: 32'd1, start_addr: 32'h0001_0000, end_addr: 32'h0001_ffff}, // UART (4k)
-    '{idx: 32'd0, start_addr: 32'h0000_0000, end_addr: 32'h0000_ffff}  // Scratchpad (4k) 
+    '{idx: 32'd3, start_addr: 32'h0000_4000, end_addr: 32'h0000_4fff}, // Timer/Counter (4k)
+    '{idx: 32'd2, start_addr: 32'h0000_3000, end_addr: 32'h0000_3fff}, // LEDs (4k)
+    '{idx: 32'd1, start_addr: 32'h0000_2000, end_addr: 32'h0000_2fff}, // UART (4k)
+    '{idx: 32'd0, start_addr: 32'h0000_1000, end_addr: 32'h0000_1fff}  // Scratchpad (4k) 
   };
 
   // Parameters used for picorv32_axi instantiation
@@ -70,7 +72,7 @@ package picorv32_soc_pkg;
 
   // By default shift operations are performed by successively shifting by a small amount
   // (see TWO_STAGE_SHIFT above). With this option set, a barrel shifter is used instead.
-  parameter bit BARREL_SHIFTER_p = 0;
+  parameter bit BARREL_SHIFTER_p = 1;
 
   // This relaxes the longest data path a bit by adding an additional FF stage at the cost of 
   // adding an additional clock cycle delay to the conditional branch instructions.
@@ -127,7 +129,7 @@ package picorv32_soc_pkg;
   // pointer and thread pointer registers according to the RISC-V ABI. Code generated from ordinary
   // C code will not interact with those registers.
   // Support for q-registers is always disabled when ENABLE_IRQ is set to 0.
-  parameter bit ENABLE_IRQ_QREGS_p = 0;
+  parameter bit ENABLE_IRQ_QREGS_p = 1;
 
   // Set this to 0 to disable support for the timer instruction.
   // Support for the timer is always disabled when ENABLE_IRQ is set to 0.
@@ -151,10 +153,10 @@ package picorv32_soc_pkg;
   parameter bit [31:0] LATCHED_IRQ_p = 32'h ffff_ffff;
 
   // The start address of the program.
-  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_0000;
+  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_1000;
   
   // The start address of the interrupt handler.
-  parameter bit [31:0] PROGADDR_IRQ_p = 32'h 0000_0010;
+  parameter bit [31:0] PROGADDR_IRQ_p = 32'h 0000_1010;
 
   // When this parameter has a value different from 0xffffffff, then register x2 (the stack pointer)
   // is initialized to this value on reset. (All other registers remain uninitialized.) Note that

@@ -12,13 +12,27 @@ module picorv32_soc_tb_top;
     forever #5ns tb_clk <= ~tb_clk;
   end
 
+
+  initial begin
+    string file_name = "$PICORV32_SOC_ROOT/tb/src/firmware.hex";
+    int fd;
+    fd = $fopen(file_name, "r");
+    if (!fd) begin
+      $display("Memory file %0s not found!", file_name);
+      $fatal;
+    end
+    $fclose(fd);
+    $readmemh(file_name, picorv32_soc_dut.axi_lite_scratchpad_inst.ram_block);
+  end
+
   // Generate reset
   initial begin
     tb_rst_n <= 1'b0;
     repeat (10) @(posedge tb_clk);
     tb_rst_n <= 1'b1;
-    wait(picorv32_soc_dut.s_rst_n === 1'b1);
-    repeat (10) @(posedge tb_clk);
+    wait(picorv32_soc_dut.s_trap === 1'b1);
+    $display("Trap detected! Ending simulation.");
+    repeat(10) @(posedge tb_clk);
 
     $finish;
   end

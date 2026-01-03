@@ -26,6 +26,9 @@ module picorv32_soc_top
   logic [31:0] s_irq;
   logic [31:0] s_eoi;
 
+  assign s_irq[2:0]  = '0;
+  assign s_irq[31:5] = '0;
+
   AXI_LITE #(
     .AXI_ADDR_WIDTH ( AXI_ADDR_BW_p ),
     .AXI_DATA_WIDTH ( AXI_DATA_BW_p )
@@ -37,10 +40,8 @@ module picorv32_soc_top
   ) axi_slave_intf[AXI_SLAVE_NBR_p-1:0] ();
 
   // TODO:
-  // Add Scratchpad and connect it to the interconnect
-  // Add timer/compare module
+  // Add random number generator
   // Add AXI uart
-  // Add AXI led module 
   
   // Common clock and reset (CCR) instance
   ccr #(
@@ -76,10 +77,10 @@ module picorv32_soc_top
   // Scratchpad memory
   axi_lite_scratchpad #(
     .MEMORY_BW_p( AXI_ADDR_BW_p ),
-    .MEMORY_DEPTH_p ( 4096 )
+    .MEMORY_DEPTH_p ( 1024 )
   ) axi_lite_scratchpad_inst (
-    .clk            ( s_clk                     ),
-    .rst_n          ( s_rst_n                   ),
+    .clk            ( s_clk                      ),
+    .rst_n          ( s_rst_n                    ),
     .i_axi_awaddr   ( axi_slave_intf[0].aw_addr  ),
     .i_axi_awvalid  ( axi_slave_intf[0].aw_valid ),
     .i_axi_wdata    ( axi_slave_intf[0].w_data   ),
@@ -100,6 +101,56 @@ module picorv32_soc_top
   ); 
 
   // AXI LED module
+  axi_led #(
+    .AXI_ADDR_BW_p ( 12 ),
+    .LED_NBR_p     ( 8  )
+  ) axi_led_inst (
+    .clk            ( s_clk                      ),
+    .rst_n          ( s_rst_n                    ),
+    .i_axi_awaddr   ( axi_slave_intf[2].aw_addr  ),
+    .i_axi_awvalid  ( axi_slave_intf[2].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[2].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[2].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[2].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[2].ar_addr  ),
+    .i_axi_arvalid  ( axi_slave_intf[2].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[2].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[2].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[2].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[2].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[2].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[2].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[2].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[2].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[2].r_valid  ),
+    .o_led          ( o_led                      )
+  );
+  
+  // AXI Timer/Compare
+  axi_timer_counter_top #(
+    .AXI_ADDR_BW_p ( 12 )
+  ) axi_timer_counter_inst (
+    .clk            ( s_clk                      ),
+    .rst_n          ( s_rst_n                    ),
+    .i_axi_awaddr   ( axi_slave_intf[3].aw_addr  ),
+    .i_axi_awvalid  ( axi_slave_intf[3].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[3].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[3].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[3].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[3].ar_addr  ),
+    .i_axi_arvalid  ( axi_slave_intf[3].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[3].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[3].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[3].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[3].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[3].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[3].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[3].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[3].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[3].r_valid  ),
+    .o_cnt0_done    ( s_irq[3]                   ),
+    .o_cnt1_done    ( s_irq[4]                   )
+  );
 
   // PicoRV32 instance
   picorv32_axi #(

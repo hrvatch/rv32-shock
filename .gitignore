@@ -11,3 +11,29 @@ jgproject/
 
 # Config file
 source.me
+
+# Build artifacts from Makefile
+*.o
+*.elf
+*.bin
+*.hex
+*.lst
+
+# Additional common build artifacts
+*.map
+*.dis
+*.dump
+*.a
+*.so
+
+# Linker-generated files
+*.d
+
+# Python bytecode (from makehex.py)
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor/IDE files
+*.swp
+*.swo

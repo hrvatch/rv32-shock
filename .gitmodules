@@ -10,3 +10,6 @@
 [submodule "src/axi_led"]
 	path = src/axi_led
 	url = https://github.com/hrvatch/axi_led.git
+[submodule "src/axi4_lite_timer"]
+	path = src/axi4_lite_timer
+	url = https://github.com/hrvatch/axi4_lite_timer.git
