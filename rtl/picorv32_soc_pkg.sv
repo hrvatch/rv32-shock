@@ -1,12 +1,16 @@
 package picorv32_soc_pkg;
   import axi_pkg::*;
 
+  // SRAM size
+  parameter int unsigned SRAM_WIDTH = 32;
+  parameter int unsigned SRAM_DEPTH = 4096;
+
   // Number of masters
   // We have only one master: picorv32
   parameter int unsigned AXI_MASTER_NBR_p = 1;
 
   // Number of Slaves
-  // We have 3 slaves:
+  // We have 4 slaves:
   // 1. Scratchpad memory 
   // 2. UART
   // 3. LEDs
@@ -37,10 +41,10 @@ package picorv32_soc_pkg;
 
   // AXI address map
   parameter rule_t [AXI_XBAR_CFG_p.NoAddrRules-1:0] AXI_ADDR_MAP_p = '{
-    '{idx: 32'd3, start_addr: 32'h0000_4000, end_addr: 32'h0000_4fff}, // Timer/Counter (4k)
-    '{idx: 32'd2, start_addr: 32'h0000_3000, end_addr: 32'h0000_3fff}, // LEDs (4k)
-    '{idx: 32'd1, start_addr: 32'h0000_2000, end_addr: 32'h0000_2fff}, // UART (4k)
-    '{idx: 32'd0, start_addr: 32'h0000_1000, end_addr: 32'h0000_1fff}  // Scratchpad (4k) 
+    '{idx: 32'd3, start_addr: 32'h0000_7000, end_addr: 32'h0000_7fff}, // Timer/Counter (4k)
+    '{idx: 32'd2, start_addr: 32'h0000_6000, end_addr: 32'h0000_6fff}, // LEDs (4k)
+    '{idx: 32'd1, start_addr: 32'h0000_5000, end_addr: 32'h0000_5fff}, // UART (4k)
+    '{idx: 32'd0, start_addr: 32'h0000_1000, end_addr: 32'h0000_4fff}  // SRAM (16k) 
   };
 
   // Parameters used for picorv32_axi instantiation
@@ -162,5 +166,5 @@ package picorv32_soc_pkg;
   // is initialized to this value on reset. (All other registers remain uninitialized.) Note that
   // the RISC-V calling convention requires the stack pointer to be aligned on 16 bytes boundaries
   // (4 bytes for the RV32I soft float calling convention).
-  parameter bit [31:0] STACKADDR_p = 32'h3FF0;
+  parameter bit [31:0] STACKADDR_p = 32'h4FF0;
 endpackage : picorv32_soc_pkg

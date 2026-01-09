@@ -3,7 +3,7 @@
 #include "irq.h"
 #include "axi4_lite_timer.h"
 
-#define LED_BASE 0x00003000
+#define LED_BASE 0x00006000
 volatile uint32_t *leds = (volatile uint32_t *)LED_BASE;
 volatile uint32_t irq_count = 0;
 

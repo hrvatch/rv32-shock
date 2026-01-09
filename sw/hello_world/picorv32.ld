@@ -2,7 +2,7 @@ OUTPUT_ARCH("riscv")
 ENTRY(_start)
 
 MEMORY {
-    SRAM (rwx) : ORIGIN = 0x00001000, LENGTH = 4K
+    SRAM (rwx) : ORIGIN = 0x00001000, LENGTH = 16K
 }
 
 SECTIONS {
@@ -30,5 +30,5 @@ SECTIONS {
         _bss_end = .;
     } > SRAM
     
-    _stack_top = 0x2000;
+    _stack_top = 0x5000;
 }

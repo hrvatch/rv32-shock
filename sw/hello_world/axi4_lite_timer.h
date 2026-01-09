@@ -120,7 +120,7 @@ typedef struct {
  * @note Update this address to match your system's memory map
  */
 #ifndef AXI_TIMER_BASE_ADDR
-#define AXI_TIMER_BASE_ADDR  0x00004000UL
+#define AXI_TIMER_BASE_ADDR  0x00007000UL
 #endif
 
 /**

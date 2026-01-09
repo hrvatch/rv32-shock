@@ -13,3 +13,6 @@
 [submodule "src/axi4_lite_timer"]
 	path = src/axi4_lite_timer
 	url = https://github.com/hrvatch/axi4_lite_timer.git
+[submodule "src/axi4_lite_uart"]
+	path = src/axi4_lite_uart
+	url = https://github.com/hrvatch/axi4_lite_uart.git

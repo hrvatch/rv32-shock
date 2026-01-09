@@ -6,9 +6,9 @@ OBJDUMP = $(CROSS)objdump
 ARCH = rv32imc
 ABI = ilp32
 
-CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall
+CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall -flto -ffunction-sections -fdata-sections
 CFLAGS += -ffreestanding -nostdlib
-LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T picorv32.ld
+LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -flto -Wl,--gc-sections -nostdlib -T picorv32.ld
 
 all: firmware.hex firmware.lst
 

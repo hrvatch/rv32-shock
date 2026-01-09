@@ -27,7 +27,7 @@ module picorv32_soc_top
   logic [31:0] s_eoi;
 
   assign s_irq[2:0]  = '0;
-  assign s_irq[31:5] = '0;
+  assign s_irq[31:6] = '0;
 
   AXI_LITE #(
     .AXI_ADDR_WIDTH ( AXI_ADDR_BW_p ),
@@ -39,10 +39,6 @@ module picorv32_soc_top
     .AXI_DATA_WIDTH ( AXI_DATA_BW_p )
   ) axi_slave_intf[AXI_SLAVE_NBR_p-1:0] ();
 
-  // TODO:
-  // Add random number generator
-  // Add AXI uart
-  
   // Common clock and reset (CCR) instance
   ccr #(
 `ifdef SIM
@@ -73,11 +69,11 @@ module picorv32_soc_top
     .en_default_mst_port_i  ( '0              ),
     .default_mst_port_i     ( '0              )
   );
-
+  
   // Scratchpad memory
   axi_lite_scratchpad #(
-    .MEMORY_BW_p( AXI_ADDR_BW_p ),
-    .MEMORY_DEPTH_p ( 1024 )
+    .MEMORY_BW_p    ( SRAM_WIDTH                 ),
+    .MEMORY_DEPTH_p ( SRAM_DEPTH                 )
   ) axi_lite_scratchpad_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
@@ -99,6 +95,35 @@ module picorv32_soc_top
     .o_axi_rresp    ( axi_slave_intf[0].r_resp   ),
     .o_axi_rvalid   ( axi_slave_intf[0].r_valid  )
   ); 
+  
+  // AXI UART
+  uart_top #(
+    .CLK_FREQ_p         ( 100_000_000         ),
+    .UART_FIFO_DEPTH_p  ( 16                  ),
+    .AXI_ADDR_BW_p      ( 12                  )
+  ) uart_inst (
+    .clk            ( s_clk                      ),
+    .rst_n          ( s_rst_n                    ),
+    .i_axi_awaddr   ( axi_slave_intf[1].aw_addr  ),
+    .i_axi_awvalid  ( axi_slave_intf[1].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[1].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[1].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[1].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[1].ar_addr  ),
+    .i_axi_arvalid  ( axi_slave_intf[1].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[1].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[1].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[1].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[1].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[1].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[1].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[1].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[1].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[1].r_valid  ),
+    .i_uart_rx      ( i_uart_tx                  ),
+    .o_uart_tx      ( o_uart_rx                  ),
+    .o_irq          ( s_irq[5]                   )
+  );
 
   // AXI LED module
   axi_led #(
