@@ -86,7 +86,6 @@ _irq_handler:
   picorv32_getq_insn(x2, q2)
   picorv32_retirq_insn()
 
-
 # ==============================================================================
 # Initialization code
 # ==============================================================================
@@ -124,7 +123,7 @@ _init:
 	addi x30, zero, 0
 	addi x31, zero, 0
   # Initialize stack
-  li sp, 0x1FF0
+  la sp, _stack_top
   
   # Clear BSS
   la t0, _bss_start
@@ -178,7 +177,6 @@ _irq_disable:
   sw zero, (t0)
   ret
 
-
 # Set interrrupt mask.
 # This updates the software mask (for readback and interrupt inable/disable)
 # and the hardware mask.
@@ -212,7 +210,6 @@ irq_stack:
 .global _irq_mask
 _irq_mask:
   .word 0
-
 
 # Software state of global interrupts being enabled or disabled. Do not write
 # directly, use _irq_disable / _irq_enable instead.

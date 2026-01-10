@@ -18,7 +18,7 @@ package picorv32_soc_pkg;
   parameter int unsigned AXI_SLAVE_NBR_p = 4;
 
   // AXI address width
-  parameter int unsigned AXI_ADDR_BW_p = 32;
+  parameter int unsigned AXI_ADDR_BW_p = 15;
 
   // AXI data width
   parameter int unsigned AXI_DATA_BW_p = 32;
@@ -29,7 +29,7 @@ package picorv32_soc_pkg;
     NoMstPorts:   AXI_SLAVE_NBR_p, 
     MaxMstTrans:  4,
     MaxSlvTrans:  1,
-    FallThrough:  1'b1,
+    FallThrough:  1'b0,
     LatencyMode:  axi_pkg::CUT_ALL_AX,
     AxiAddrWidth: AXI_ADDR_BW_p,
     AxiDataWidth: AXI_DATA_BW_p,
@@ -41,10 +41,10 @@ package picorv32_soc_pkg;
 
   // AXI address map
   parameter rule_t [AXI_XBAR_CFG_p.NoAddrRules-1:0] AXI_ADDR_MAP_p = '{
-    '{idx: 32'd3, start_addr: 32'h0000_7000, end_addr: 32'h0000_7fff}, // Timer/Counter (4k)
-    '{idx: 32'd2, start_addr: 32'h0000_6000, end_addr: 32'h0000_6fff}, // LEDs (4k)
-    '{idx: 32'd1, start_addr: 32'h0000_5000, end_addr: 32'h0000_5fff}, // UART (4k)
-    '{idx: 32'd0, start_addr: 32'h0000_1000, end_addr: 32'h0000_4fff}  // SRAM (16k) 
+    '{idx: 32'd3, start_addr: 32'h0000_4000, end_addr: 32'h0000_8000}, // SRAM (16k) 
+    '{idx: 32'd2, start_addr: 32'h0000_3000, end_addr: 32'h0000_4000}, // UART (4k)
+    '{idx: 32'd1, start_addr: 32'h0000_2000, end_addr: 32'h0000_3000}, // LEDs (4k)
+    '{idx: 32'd0, start_addr: 32'h0000_1000, end_addr: 32'h0000_2000}  // Timer/Counter (4k)
   };
 
   // Parameters used for picorv32_axi instantiation
@@ -157,14 +157,14 @@ package picorv32_soc_pkg;
   parameter bit [31:0] LATCHED_IRQ_p = 32'h ffff_ffff;
 
   // The start address of the program.
-  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_1000;
+  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_4000;
   
   // The start address of the interrupt handler.
-  parameter bit [31:0] PROGADDR_IRQ_p = 32'h 0000_1010;
+  parameter bit [31:0] PROGADDR_IRQ_p = 32'h 0000_4010;
 
   // When this parameter has a value different from 0xffffffff, then register x2 (the stack pointer)
   // is initialized to this value on reset. (All other registers remain uninitialized.) Note that
   // the RISC-V calling convention requires the stack pointer to be aligned on 16 bytes boundaries
   // (4 bytes for the RV32I soft float calling convention).
-  parameter bit [31:0] STACKADDR_p = 32'h4FF0;
+  parameter bit [31:0] STACKADDR_p = 32'h ffff_ffff;
 endpackage : picorv32_soc_pkg

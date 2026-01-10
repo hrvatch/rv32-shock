@@ -6,14 +6,16 @@ OBJDUMP = $(CROSS)objdump
 ARCH = rv32imc
 ABI = ilp32
 
-CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall -flto -ffunction-sections -fdata-sections
+CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall
 CFLAGS += -ffreestanding -nostdlib
-LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -flto -Wl,--gc-sections -nostdlib -T picorv32.ld
+LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T picorv32.ld
+CFLAGS += -ffunction-sections -fdata-sections -Os -flto
+LDFLAGS += -Wl,--gc-sections -flto
 
 all: firmware.hex firmware.lst
 
-firmware.elf: start.o main.o picorv32.ld
-	$(CC) $(LDFLAGS) -o $@ start.o main.o
+firmware.elf: start.o main.o uart.o picorv32.ld
+	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o
 	$(CROSS)size $@
 
 firmware.bin: firmware.elf

@@ -18,7 +18,7 @@ module picorv32_soc_top
   // Clock and reset
   logic s_rst_n;
   logic s_clk;
-
+  
   // CPU trap
   logic s_trap;
 
@@ -77,23 +77,23 @@ module picorv32_soc_top
   ) axi_lite_scratchpad_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
-    .i_axi_awaddr   ( axi_slave_intf[0].aw_addr  ),
-    .i_axi_awvalid  ( axi_slave_intf[0].aw_valid ),
-    .i_axi_wdata    ( axi_slave_intf[0].w_data   ),
-    .i_axi_wvalid   ( axi_slave_intf[0].w_valid  ),
-    .i_axi_wstrb    ( axi_slave_intf[0].w_strb   ),
-    .i_axi_bready   ( axi_slave_intf[0].b_ready  ),
-    .i_axi_araddr   ( axi_slave_intf[0].ar_addr  ),
-    .i_axi_arvalid  ( axi_slave_intf[0].ar_valid ),
-    .i_axi_rready   ( axi_slave_intf[0].r_ready  ),
-    .o_axi_awready  ( axi_slave_intf[0].aw_ready ),
-    .o_axi_wready   ( axi_slave_intf[0].w_ready  ),
-    .o_axi_bresp    ( axi_slave_intf[0].b_resp   ),
-    .o_axi_bvalid   ( axi_slave_intf[0].b_valid  ),
-    .o_axi_arready  ( axi_slave_intf[0].ar_ready ),
-    .o_axi_rdata    ( axi_slave_intf[0].r_data   ),
-    .o_axi_rresp    ( axi_slave_intf[0].r_resp   ),
-    .o_axi_rvalid   ( axi_slave_intf[0].r_valid  )
+    .i_axi_awaddr   ( axi_slave_intf[3].aw_addr[13:0]  ),
+    .i_axi_awvalid  ( axi_slave_intf[3].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[3].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[3].w_valid  ),
+    .i_axi_wstrb    ( axi_slave_intf[3].w_strb   ),
+    .i_axi_bready   ( axi_slave_intf[3].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[3].ar_addr[13:0]  ),
+    .i_axi_arvalid  ( axi_slave_intf[3].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[3].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[3].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[3].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[3].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[3].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[3].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[3].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[3].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[3].r_valid  )
   ); 
   
   // AXI UART
@@ -104,22 +104,22 @@ module picorv32_soc_top
   ) uart_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
-    .i_axi_awaddr   ( axi_slave_intf[1].aw_addr  ),
-    .i_axi_awvalid  ( axi_slave_intf[1].aw_valid ),
-    .i_axi_wdata    ( axi_slave_intf[1].w_data   ),
-    .i_axi_wvalid   ( axi_slave_intf[1].w_valid  ),
-    .i_axi_bready   ( axi_slave_intf[1].b_ready  ),
-    .i_axi_araddr   ( axi_slave_intf[1].ar_addr  ),
-    .i_axi_arvalid  ( axi_slave_intf[1].ar_valid ),
-    .i_axi_rready   ( axi_slave_intf[1].r_ready  ),
-    .o_axi_awready  ( axi_slave_intf[1].aw_ready ),
-    .o_axi_wready   ( axi_slave_intf[1].w_ready  ),
-    .o_axi_bresp    ( axi_slave_intf[1].b_resp   ),
-    .o_axi_bvalid   ( axi_slave_intf[1].b_valid  ),
-    .o_axi_arready  ( axi_slave_intf[1].ar_ready ),
-    .o_axi_rdata    ( axi_slave_intf[1].r_data   ),
-    .o_axi_rresp    ( axi_slave_intf[1].r_resp   ),
-    .o_axi_rvalid   ( axi_slave_intf[1].r_valid  ),
+    .i_axi_awaddr   ( axi_slave_intf[2].aw_addr[11:0]  ),
+    .i_axi_awvalid  ( axi_slave_intf[2].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[2].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[2].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[2].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[2].ar_addr[11:0]  ),
+    .i_axi_arvalid  ( axi_slave_intf[2].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[2].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[2].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[2].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[2].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[2].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[2].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[2].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[2].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[2].r_valid  ),
     .i_uart_rx      ( i_uart_tx                  ),
     .o_uart_tx      ( o_uart_rx                  ),
     .o_irq          ( s_irq[5]                   )
@@ -132,22 +132,22 @@ module picorv32_soc_top
   ) axi_led_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
-    .i_axi_awaddr   ( axi_slave_intf[2].aw_addr  ),
-    .i_axi_awvalid  ( axi_slave_intf[2].aw_valid ),
-    .i_axi_wdata    ( axi_slave_intf[2].w_data   ),
-    .i_axi_wvalid   ( axi_slave_intf[2].w_valid  ),
-    .i_axi_bready   ( axi_slave_intf[2].b_ready  ),
-    .i_axi_araddr   ( axi_slave_intf[2].ar_addr  ),
-    .i_axi_arvalid  ( axi_slave_intf[2].ar_valid ),
-    .i_axi_rready   ( axi_slave_intf[2].r_ready  ),
-    .o_axi_awready  ( axi_slave_intf[2].aw_ready ),
-    .o_axi_wready   ( axi_slave_intf[2].w_ready  ),
-    .o_axi_bresp    ( axi_slave_intf[2].b_resp   ),
-    .o_axi_bvalid   ( axi_slave_intf[2].b_valid  ),
-    .o_axi_arready  ( axi_slave_intf[2].ar_ready ),
-    .o_axi_rdata    ( axi_slave_intf[2].r_data   ),
-    .o_axi_rresp    ( axi_slave_intf[2].r_resp   ),
-    .o_axi_rvalid   ( axi_slave_intf[2].r_valid  ),
+    .i_axi_awaddr   ( axi_slave_intf[1].aw_addr[11:0]  ),
+    .i_axi_awvalid  ( axi_slave_intf[1].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[1].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[1].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[1].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[1].ar_addr[11:0]  ),
+    .i_axi_arvalid  ( axi_slave_intf[1].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[1].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[1].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[1].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[1].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[1].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[1].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[1].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[1].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[1].r_valid  ),
     .o_led          ( o_led                      )
   );
   
@@ -157,22 +157,22 @@ module picorv32_soc_top
   ) axi_timer_counter_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
-    .i_axi_awaddr   ( axi_slave_intf[3].aw_addr  ),
-    .i_axi_awvalid  ( axi_slave_intf[3].aw_valid ),
-    .i_axi_wdata    ( axi_slave_intf[3].w_data   ),
-    .i_axi_wvalid   ( axi_slave_intf[3].w_valid  ),
-    .i_axi_bready   ( axi_slave_intf[3].b_ready  ),
-    .i_axi_araddr   ( axi_slave_intf[3].ar_addr  ),
-    .i_axi_arvalid  ( axi_slave_intf[3].ar_valid ),
-    .i_axi_rready   ( axi_slave_intf[3].r_ready  ),
-    .o_axi_awready  ( axi_slave_intf[3].aw_ready ),
-    .o_axi_wready   ( axi_slave_intf[3].w_ready  ),
-    .o_axi_bresp    ( axi_slave_intf[3].b_resp   ),
-    .o_axi_bvalid   ( axi_slave_intf[3].b_valid  ),
-    .o_axi_arready  ( axi_slave_intf[3].ar_ready ),
-    .o_axi_rdata    ( axi_slave_intf[3].r_data   ),
-    .o_axi_rresp    ( axi_slave_intf[3].r_resp   ),
-    .o_axi_rvalid   ( axi_slave_intf[3].r_valid  ),
+    .i_axi_awaddr   ( axi_slave_intf[0].aw_addr[11:0]  ),
+    .i_axi_awvalid  ( axi_slave_intf[0].aw_valid ),
+    .i_axi_wdata    ( axi_slave_intf[0].w_data   ),
+    .i_axi_wvalid   ( axi_slave_intf[0].w_valid  ),
+    .i_axi_bready   ( axi_slave_intf[0].b_ready  ),
+    .i_axi_araddr   ( axi_slave_intf[0].ar_addr[11:0]  ),
+    .i_axi_arvalid  ( axi_slave_intf[0].ar_valid ),
+    .i_axi_rready   ( axi_slave_intf[0].r_ready  ),
+    .o_axi_awready  ( axi_slave_intf[0].aw_ready ),
+    .o_axi_wready   ( axi_slave_intf[0].w_ready  ),
+    .o_axi_bresp    ( axi_slave_intf[0].b_resp   ),
+    .o_axi_bvalid   ( axi_slave_intf[0].b_valid  ),
+    .o_axi_arready  ( axi_slave_intf[0].ar_ready ),
+    .o_axi_rdata    ( axi_slave_intf[0].r_data   ),
+    .o_axi_rresp    ( axi_slave_intf[0].r_resp   ),
+    .o_axi_rvalid   ( axi_slave_intf[0].r_valid  ),
     .o_cnt0_done    ( s_irq[3]                   ),
     .o_cnt1_done    ( s_irq[4]                   )
   );
@@ -226,7 +226,7 @@ module picorv32_soc_top
     .mem_axi_rvalid     ( axi_master_intf[0].r_valid    ),
     .mem_axi_rready     ( axi_master_intf[0].r_ready    ),
     .mem_axi_rdata      ( axi_master_intf[0].r_data     ),
-  
+
     // Pico Co-Processor Interface (PCPI)
     .pcpi_valid   ( /* OPEN */    ),
     .pcpi_insn    ( /* OPEN */    ),
@@ -236,7 +236,7 @@ module picorv32_soc_top
     .pcpi_rd      ( '0            ),
     .pcpi_wait    ( 1'b0          ),
     .pcpi_ready   ( 1'b0          ),
-  
+
     // IRQ interface
     .irq          ( s_irq         ),
     .eoi          ( s_eoi         ),
@@ -245,5 +245,6 @@ module picorv32_soc_top
     .trace_valid  ( /* OPEN */    ),
     .trace_data   ( /* OPEN */    )
   );
+
 
 endmodule : picorv32_soc_top
