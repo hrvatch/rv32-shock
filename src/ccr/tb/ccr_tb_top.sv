@@ -38,7 +38,7 @@ module ccr_tb_top ();
     .PLL_LOCK_COUNTER_VALUE_p(20)
   ) ccr_dut_i (
     .i_clk      ( tb_clk      ),
-    .i_sysrst_n ( tb_sysrst_n ),
+    .i_btn_rst_n ( tb_sysrst_n ),
     .o_clk      ( dut_clk     ),
     .o_rst_n    ( dut_rst_n   )
   );

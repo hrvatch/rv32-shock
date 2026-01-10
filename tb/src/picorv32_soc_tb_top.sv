@@ -39,7 +39,7 @@ module picorv32_soc_tb_top;
 
   picorv32_soc_top picorv32_soc_dut (
     .i_clk     ( tb_clk     ),
-    .i_rst_n   ( tb_rst_n   ),
+    .i_btn_rst_n   ( tb_rst_n   ),
     .o_led     ( tb_led     ),
     .o_uart_rx ( tb_uart_rx ),
     .i_uart_tx ( tb_uart_tx )

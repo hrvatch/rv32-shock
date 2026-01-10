@@ -11,6 +11,7 @@ CFLAGS += -ffreestanding -nostdlib
 LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T picorv32.ld
 CFLAGS += -ffunction-sections -fdata-sections -Os -flto
 LDFLAGS += -Wl,--gc-sections -flto
+CFLAGS += -DSIM
 
 all: firmware.hex firmware.lst
 

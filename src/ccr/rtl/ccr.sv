@@ -1,9 +1,9 @@
 module ccr #(
-  parameter int SYSRST_DEBOUNCE_COUNTER_VALUE_p = 100000, // This corresponds to 100ms on 100 MHz clock
+  parameter int BTN_DEBOUNCE_COUNTER_VALUE_p = 100000, // This corresponds to 100ms on 100 MHz clock
   parameter int PLL_LOCK_COUNTER_VALUE_p = 100000 // This corresponds to 100ms on 100 MHz clock
 )(
   input logic i_clk,
-  input logic i_sysrst_n,
+  input logic i_btn_rst_n,
   output logic o_clk,
   output logic o_rst_n
 );
@@ -18,31 +18,42 @@ module ccr #(
   assign o_clk = s_clk;
   assign o_rst_n = s_rst_n;
 
-  // System reset sampling and debouncing
-  (* ASYNC_REG = "TRUE" *) logic [3:0] s_sysrst_n_d;
-  logic s_sysrst_n;
-  logic s_sysrst;
-  logic [$clog2(SYSRST_DEBOUNCE_COUNTER_VALUE_p)-1:0] s_sysrst_cnt;
+  // First we want to sample and debounce the input button
+  logic [$clog2(BTN_DEBOUNCE_COUNTER_VALUE_p)-1:0] btn_debounce_counter;
+  (* IOB = "TRUE" *) logic btn_rst_n_stage_1;
+  (* ASYNC_REG = "TRUE" *) logic btn_rst_n_stage_2;
+  logic btn_rst_n_stage_3;
+  logic btn_rst_n_stage_4;
+  logic btn_debounced;
 
-  always_ff @(posedge i_clk) begin
-    s_sysrst_n_d <= { s_sysrst_n_d[2:0], i_sysrst_n };
+  `ifndef SIM
+  initial begin
+    btn_debounce_counter = BTN_DEBOUNCE_COUNTER_VALUE_p;
+  end
+  `endif
+
+  always_ff @(posedge s_clk) begin
+    btn_rst_n_stage_1 <= i_btn_rst_n;
+    btn_rst_n_stage_2 <= btn_rst_n_stage_1;
+    btn_rst_n_stage_3 <= btn_rst_n_stage_2;
+    btn_rst_n_stage_4 <= btn_rst_n_stage_3;
   end
 
-  always_ff @(posedge i_clk) begin
-    s_sysrst_n <= (s_sysrst_cnt === SYSRST_DEBOUNCE_COUNTER_VALUE_p) ? s_sysrst_n_d[3] : s_sysrst_n;
-
-    if (s_sysrst_n_d[3] != s_sysrst_n_d[2]) begin
-      s_sysrst_cnt <= '0;
-    end else if (s_sysrst_cnt != SYSRST_DEBOUNCE_COUNTER_VALUE_p) begin
-      s_sysrst_cnt <= s_sysrst_cnt + 1;
+  always_ff @(posedge s_clk) begin
+    if (btn_rst_n_stage_4 != btn_rst_n_stage_3) begin
+      btn_debounce_counter <= BTN_DEBOUNCE_COUNTER_VALUE_p;
+    end else begin
+      if (btn_debounce_counter == '0) begin
+        btn_debounced <= btn_rst_n_stage_4;
+      end else begin
+        btn_debounce_counter <= btn_debounce_counter - 1'b1;
+      end
     end
   end
 
-  assign s_sysrst = ~s_sysrst_n;
-
- // Resample input flops using the correct clock domain
- // Add counter for reset
- // Output reset depends on system reset and PLL lock
+  // Resample input flops using the correct clock domain
+  // Add counter for reset
+  // Output reset depends on system reset and PLL lock
   MMCME2_BASE #(
     .BANDWIDTH("OPTIMIZED"),   // Jitter programming (OPTIMIZED, HIGH, LOW)
     .CLKFBOUT_MULT_F(6.0),     // Multiply value for all CLKOUT (2.000-64.000).
@@ -107,10 +118,11 @@ module ccr #(
   logic [$clog2(PLL_LOCK_COUNTER_VALUE_p)-1:0] s_rst_cnt;  
   logic s_clear_counter;
 
+  // Now use the synchronized version
   always_ff @(posedge s_clk) begin
-    s_clear_counter <= ~s_locked | s_sysrst;
+    s_clear_counter <= ~(s_locked & btn_debounced);
     s_rst_n <= (s_rst_cnt == PLL_LOCK_COUNTER_VALUE_p);
-
+  
     if (s_clear_counter) begin
       s_rst_cnt <= '0;
     end else if (s_rst_cnt != PLL_LOCK_COUNTER_VALUE_p) begin

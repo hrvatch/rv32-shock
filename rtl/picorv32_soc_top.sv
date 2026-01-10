@@ -5,7 +5,7 @@ module picorv32_soc_top
   input logic i_clk,
 
   // Nexys Video CPU reset
-  input logic i_rst_n,
+  input logic i_btn_rst_n,
 
   // Nexys Video LEDs
   output logic [7:0] o_led,
@@ -14,7 +14,11 @@ module picorv32_soc_top
   output logic o_uart_rx,
   input logic i_uart_tx
 );
- 
+
+  `ifndef RAM_INIT_FILE
+  `define RAM_INIT_FILE ""
+  `endif
+
   // Clock and reset
   logic s_rst_n;
   logic s_clk;
@@ -39,18 +43,34 @@ module picorv32_soc_top
     .AXI_DATA_WIDTH ( AXI_DATA_BW_p )
   ) axi_slave_intf[AXI_SLAVE_NBR_p-1:0] ();
 
+  AXI_LITE #(
+    .AXI_ADDR_WIDTH ( AXI_ADDR_BW_p ),
+    .AXI_DATA_WIDTH ( AXI_DATA_BW_p )
+  ) cut_to_xbar[AXI_MASTER_NBR_p-1:0]();
+
+  // Insert cut between PicoRV32 and crossbar
+  axi_lite_cut_intf #(
+    .ADDR_WIDTH( AXI_ADDR_BW_p ),
+    .DATA_WIDTH( AXI_DATA_BW_p )
+  ) i_response_cut (
+    .clk_i  (s_clk),
+    .rst_ni (s_rst_n),
+    .in    (axi_master_intf[0]),  // From your PicoRV32 bridge
+    .out    (cut_to_xbar[0])    // To crossbar
+  );
+
   // Common clock and reset (CCR) instance
   ccr #(
 `ifdef SIM
-    .SYSRST_DEBOUNCE_COUNTER_VALUE_p ( 10 ),
+    .BTN_DEBOUNCE_COUNTER_VALUE_p ( 10 ),
     .PLL_LOCK_COUNTER_VALUE_p ( 15 )
 `else
-    .SYSRST_DEBOUNCE_COUNTER_VALUE_p ( 100000 ),
+    .BTN_DEBOUNCE_COUNTER_VALUE_p ( 100000 ),
     .PLL_LOCK_COUNTER_VALUE_p ( 100000 )
 `endif // SIM
   ) ccr_inst (
     .i_clk      ( i_clk   ),
-    .i_sysrst_n ( i_rst_n ),
+    .i_btn_rst_n ( i_btn_rst_n ),
     .o_clk      ( s_clk   ),
     .o_rst_n    ( s_rst_n )
   );
@@ -63,7 +83,7 @@ module picorv32_soc_top
     .clk_i                  ( s_clk           ),
     .rst_ni                 ( s_rst_n         ),
     .test_i                 ( 1'b0            ),
-    .slv_ports              ( axi_master_intf ),
+    .slv_ports              ( cut_to_xbar     ),
     .mst_ports              ( axi_slave_intf  ),
     .addr_map_i             ( AXI_ADDR_MAP_p  ),
     .en_default_mst_port_i  ( '0              ),
@@ -73,7 +93,8 @@ module picorv32_soc_top
   // Scratchpad memory
   axi_lite_scratchpad #(
     .MEMORY_BW_p    ( SRAM_WIDTH                 ),
-    .MEMORY_DEPTH_p ( SRAM_DEPTH                 )
+    .MEMORY_DEPTH_p ( SRAM_DEPTH                 ),
+    .MEM_FILE_p     ( `RAM_INIT_FILE             )
   ) axi_lite_scratchpad_inst (
     .clk            ( s_clk                      ),
     .rst_n          ( s_rst_n                    ),
@@ -183,6 +204,7 @@ module picorv32_soc_top
     .ENABLE_COUNTERS64    ( ENABLE_COUNTERS64_p     ),
     .ENABLE_REGS_16_31    ( ENABLE_REGS_16_31_p     ),
     .ENABLE_REGS_DUALPORT ( ENABLE_REGS_DUALPORT_p  ),
+    //.LATCHED_MEM_RDATA    ( LATCHED_MEM_RDATA_p     ),
     .TWO_STAGE_SHIFT      ( TWO_STAGE_SHIFT_p       ),
     .BARREL_SHIFTER       ( BARREL_SHIFTER_p        ),
     .TWO_CYCLE_COMPARE    ( TWO_CYCLE_COMPARE_p     ),
