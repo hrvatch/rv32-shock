@@ -348,11 +348,13 @@ To embed a program directly in SRAM (useful for standalone operation):
 
 ```bash
 # Embed hello_world in SRAM
-make vivado_batch_gen_bitstream RAM_INIT_FILE=../sw/hello_world/firmware.hex
+make vivado_batch_gen_bitstream RAM_INIT_FILE=/path/to/firmware.hex
 
 # Embed custom bootloader
-make vivado_batch_gen_bitstream BOOTLOADER_INIT_FILE=../sw/bootloader/bootloader.hex
+make vivado_batch_gen_bitstream BOOTLOADER_INIT_FILE=/path/to/bootloader.hex
 ```
+
+NOTE: Use absolute paths.
 
 ### Timing Analysis
 

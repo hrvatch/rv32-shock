@@ -37,8 +37,8 @@ package picorv32_soc_pkg;
   parameter axi_pkg::xbar_cfg_t AXI_XBAR_CFG_p = '{
     NoSlvPorts:   AXI_MASTER_NBR_p,
     NoMstPorts:   AXI_SLAVE_NBR_p, 
-    MaxMstTrans:  5,
-    MaxSlvTrans:  1,
+    MaxMstTrans:  8,
+    MaxSlvTrans:  2,
     FallThrough:  1'b0,
     LatencyMode:  axi_pkg::CUT_ALL_AX,
     AxiAddrWidth: AXI_ADDR_BW_p,
