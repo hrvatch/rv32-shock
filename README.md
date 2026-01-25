@@ -18,7 +18,7 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 - **AXI4-Lite Interconnect**: Industry-standard on-chip bus
 - **Formal Verification**: Critical peripherals are formally verified
 - **Hardware Validation**: Tested on Nexys Video FPGA board
-- **Maximum Frequency**: ~110 MHz on Xilinx XC7A200T-1 (Speed Grade -1)
+- **Maximum Frequency**: ~109 MHz on Xilinx XC7A200T-1 (Speed Grade -1)
 - **UART Bootloader**: Upload programs to SRAM without reprogramming FPGA
 
 ## Shock Block Diagram
@@ -645,8 +645,8 @@ Based on post-route timing analysis (Vivado 2025.2, Speed Grade -1):
 | Parameter | Value | Status |
 |-----------|-------|--------|
 | **Target Clock Period** | 10.000 ns (100 MHz) | - |
-| **Worst Negative Slack (WNS)** | +0.814 ns | ✅ MET |
-| **Worst Hold Slack (WHS)** | +0.890 ns | ✅ MET |
+| **Worst Negative Slack (WNS)** | +0.814 ns |  OK |
+| **Worst Hold Slack (WHS)** | +0.890 ns | OK |
 | **Maximum Achievable Frequency** | ~109 MHz | - |
 
 **Timing Analysis:**
