@@ -27,7 +27,7 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 
 ### Memory Map
 
-| Address Range        | Size | Peripheral          | Description                    |
+| Address Range       | Size | Peripheral          | Description                    |
 |---------------------|------|---------------------|--------------------------------|
 | `0x1000 - 0x1FFF`   | 4KB  | Timer/Counter       | Programmable timer with IRQ    |
 | `0x2000 - 0x2FFF`   | 4KB  | GPIO (LEDs)         | LED control interface          |
@@ -342,7 +342,7 @@ make clean
 
 ## Programming FPGA
 
-### Volatile Programming (Recommended for Development)
+### Volatile Programming
 
 Program the FPGA directly (configuration lost on power cycle):
 
@@ -507,7 +507,7 @@ minicom -D /dev/ttyUSB0 -b 115200
 python3 -m serial.tools.miniterm /dev/ttyUSB0 115200
 ```
 
-### Upload Script Options
+### Upload script options
 
 ```bash
 python3 upload.py [options]
@@ -520,7 +520,7 @@ Optional:
   -b, --baud RATE       Baud rate (default: 115200)
 ```
 
-### Creating Your Own Application
+### Creating new application
 
 1. Copy the hello_world template:
    ```bash
@@ -540,32 +540,6 @@ Optional:
    ```bash
    make
    python3 ../tools/upload.py -f firmware.bin -d /dev/ttyUSB0
-   ```
-
-### Debugging Tips
-
-1. **Use UART for printf debugging**:
-   ```c
-   uart_printf("Variable x = %d\n", x);
-   ```
-
-2. **Check return address on exceptions**:
-   The bootloader preserves crash information in registers
-
-3. **Analyze disassembly**:
-   ```bash
-   riscv32-unknown-elf-objdump -d firmware.elf > firmware.lst
-   ```
-
-4. **Monitor program size**:
-   ```bash
-   riscv32-unknown-elf-size firmware.elf
-   ```
-   Ensure it fits in 16KB SRAM
-
-5. **Use LEDs for status indication**:
-   ```c
-   LED_CONTROL = 0x55;  // Light up pattern
    ```
 
 ## Customization
@@ -696,16 +670,6 @@ clock enable.
    - Requires Xcelium (or modification for other simulators)
    - Xilinx PLL simulation requires compiled libraries
 
-## Contributing
-
-Contributions are welcome! Areas for improvement:
-
-- Port to other FPGA boards (Arty, ULX3S, etc.)
-- Add more peripherals (SPI, I2C, GPIO expansion)
-- Improve bootloader (timeout, error checking)
-- Create more example applications
-- Add formal verification for top-level SoC
-
 ## License
 
 This project consists of multiple components with different licenses:
@@ -723,10 +687,4 @@ See individual component repositories for detailed license information.
 - [PULP Platform AXI](https://github.com/pulp-platform/axi)
 - [RISC-V ISA Specification](https://riscv.org/specifications/)
 - [Digilent Nexys Video](https://digilent.com/reference/programmable-logic/nexys-video/start)
-
-## Contact
-
-For questions, issues, or contributions:
-- Open an issue on GitHub
-- Visit the project page: https://github.com/hrvatch/shock
 
