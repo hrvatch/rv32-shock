@@ -103,24 +103,29 @@ module picorv32_soc_top
   ) axi_lite_bootloader_inst (
     .clk            ( s_clk                            ),
     .rst_n          ( s_rst_n                          ),
-    .i_axi_awaddr   ( axi_slave_intf[4].aw_addr[11:0]  ),
-    .i_axi_awvalid  ( axi_slave_intf[4].aw_valid       ),
-    .i_axi_wdata    ( axi_slave_intf[4].w_data         ),
-    .i_axi_wvalid   ( axi_slave_intf[4].w_valid        ),
-    .i_axi_wstrb    ( axi_slave_intf[4].w_strb         ),
-    .i_axi_bready   ( axi_slave_intf[4].b_ready        ),
+    .i_axi_awaddr   ( '0                               ),
+    .i_axi_awvalid  ( 1'b0                             ),
+    .i_axi_wdata    ( '0                               ),
+    .i_axi_wvalid   ( 1'b0                             ),
+    .i_axi_wstrb    ( '0                               ),
+    .i_axi_bready   ( 1'b0                             ),
     .i_axi_araddr   ( axi_slave_intf[4].ar_addr[11:0]  ),
     .i_axi_arvalid  ( axi_slave_intf[4].ar_valid       ),
     .i_axi_rready   ( axi_slave_intf[4].r_ready        ),
-    .o_axi_awready  ( axi_slave_intf[4].aw_ready       ),
-    .o_axi_wready   ( axi_slave_intf[4].w_ready        ),
-    .o_axi_bresp    ( axi_slave_intf[4].b_resp         ),
-    .o_axi_bvalid   ( axi_slave_intf[4].b_valid        ),
+    .o_axi_awready  (          /* OPEN */              ),
+    .o_axi_wready   (          /* OPEN */              ),
+    .o_axi_bresp    (          /* OPEN */              ),
+    .o_axi_bvalid   (          /* OPEN */              ),
     .o_axi_arready  ( axi_slave_intf[4].ar_ready       ),
     .o_axi_rdata    ( axi_slave_intf[4].r_data         ),
     .o_axi_rresp    ( axi_slave_intf[4].r_resp         ),
     .o_axi_rvalid   ( axi_slave_intf[4].r_valid        )
   ); 
+    
+  assign axi_slave_intf[4].aw_ready = 1'b1; 
+  assign axi_slave_intf[4].w_ready  = 1'b1; 
+  assign axi_slave_intf[4].b_resp   = picorv32_soc_pkg::RESP_SLVERR;
+  assign axi_slave_intf[4].b_valid  = 1'b1; 
   
   // Scratchpad memory
   axi_lite_scratchpad #(

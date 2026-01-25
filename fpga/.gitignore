@@ -1,0 +1,9 @@
+.Xil
+Picorv32_SoC.cache
+Picorv32_SoC.hw
+Picorv32_SoC.ip_user_files
+Picorv32_SoC.runs
+Picorv32_SoC.xpr
+*.rpt
+*.log
+*.jou

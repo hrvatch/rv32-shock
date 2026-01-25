@@ -1,6 +1,12 @@
 package picorv32_soc_pkg;
   import axi_pkg::*;
 
+  // AXI constants
+  localparam logic [1:0] RESP_OKAY   = 2'b00;
+  localparam logic [1:0] RESP_EXOKAY = 2'b01;
+  localparam logic [1:0] RESP_SLVERR = 2'b10;
+  localparam logic [1:0] RESP_DECERR = 2'b11;
+
   // SRAM size 16k
   parameter int unsigned SRAM_WIDTH = 32;
   parameter int unsigned SRAM_DEPTH = 4096;
@@ -45,7 +51,7 @@ package picorv32_soc_pkg;
 
   // AXI address map
   parameter rule_t [AXI_XBAR_CFG_p.NoAddrRules-1:0] AXI_ADDR_MAP_p = '{
-    '{idx: 32'd4, start_addr: 32'h0000_8000, end_addr: 32'h0000_9000}, // Bootloader
+    '{idx: 32'd4, start_addr: 32'h0000_8000, end_addr: 32'h0000_9000}, // Bootloader (4k)
     '{idx: 32'd3, start_addr: 32'h0000_4000, end_addr: 32'h0000_8000}, // SRAM (16k) 
     '{idx: 32'd2, start_addr: 32'h0000_3000, end_addr: 32'h0000_4000}, // UART (4k)
     '{idx: 32'd1, start_addr: 32'h0000_2000, end_addr: 32'h0000_3000}, // LEDs (4k)

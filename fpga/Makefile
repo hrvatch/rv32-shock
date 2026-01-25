@@ -11,7 +11,7 @@ BOOTLOADER_INIT_FILE ?=
 
 # Vivado commands
 VIVADO := vivado
-VIVADO_FLAGS := -mode batch -source
+VIVADO_FLAGS := -mode batch -notrace
 
 # Bitstream location
 BITSTREAM := $(PROJECT_NAME).runs/impl_1/picorv32_soc_top.bit
@@ -65,21 +65,21 @@ vivado_batch_syn:
 	@echo "Running synthesis in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
 	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
-	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs synth
+	$(VIVADO) $(VIVADO_FLAGS) -source $(TCL_DIR)/vivado_batch.tcl -tclargs synth
 
 # Batch place and route (implementation)
 vivado_batch_pnr:
 	@echo "Running synthesis + implementation in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
 	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
-	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs impl
+	$(VIVADO) $(VIVADO_FLAGS) -source $(TCL_DIR)/vivado_batch.tcl -tclargs impl
 
 # Batch bitstream generation
 vivado_batch_gen_bitstream:
 	@echo "Running full flow + bitstream generation in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
 	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
-	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs bitstream
+	$(VIVADO) $(VIVADO_FLAGS) -source $(TCL_DIR)/vivado_batch.tcl -tclargs bitstream
 
 # Program FPGA (volatile - lost on power cycle)
 program:
