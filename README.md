@@ -646,7 +646,7 @@ Based on post-route timing analysis (Vivado 2025.2, Speed Grade -1):
 |-----------|-------|--------|
 | **Target Clock Period** | 10.000 ns (100 MHz) | - |
 | **Worst Negative Slack (WNS)** | +0.814 ns |  OK |
-| **Worst Hold Slack (WHS)** | +0.890 ns | OK |
+| **Worst Hold Slack (WHS)** | +0.024 ns | OK |
 | **Maximum Achievable Frequency** | ~109 MHz | - |
 
 **Timing Analysis:**
