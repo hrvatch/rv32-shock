@@ -6,7 +6,7 @@ MEMORY {
 }
 
 SECTIONS {
-    . = 0x00001000;
+    . = 0x00004000;
     
     .text : {
         *(.text.start)

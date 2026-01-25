@@ -70,7 +70,8 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 | `0x4000 - 0x7FFF`   | 16KB | SRAM                | Main program memory            |
 | `0x8000 - 0x8FFF`   | 4KB  | Bootloader ROM      | UART bootloader                |
 
-**Boot Sequence**: CPU starts execution at `0x8000` (Bootloader ROM). The bootloader waits for UART trigger ('R' character) to receive a new program, or jumps to SRAM at `0x4010` to execute previously loaded code.
+**Boot Sequence**: CPU starts execution at `0x8000` (Bootloader ROM). The bootloader waits for UART 
+trigger ('R' character) to receive a new program.
 
 ## Component Reuse
 
@@ -321,7 +322,7 @@ make
 
 ```bash
 cd fpga
-make vivado_batch_gen_bitstream BOOTLOADER_INIT_FILE=/path/to/bootloader.bin
+make vivado_batch_gen_bitstream BOOTLOADER_INIT_FILE=/path/to/bootloader.hex
 ```
 
 This command:
