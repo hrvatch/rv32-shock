@@ -400,7 +400,7 @@ After programming, the bootloader will:
 3. Wait for 'R' character on UART to receive new program
 4. After receiving 'R' character, bootloader expect 16k-bytes of data. If your program is less
    than 16k, it should be padded with zeros. The included `uploader.py` script does exactly that.
-5. After receiving 16k of data, bootloader will jump to 0x4000 (SRAM start address).
+5. After receiving 16k of data, bootloader will jump to 0x4000 (SRAM start address, where startup code begins).
 
 ## Software Development and Upload
 
@@ -456,17 +456,21 @@ int main() {
 ### Memory Layout
 
 The linker script defines:
-
 ```
 MEMORY {
-    RAM (rwx) : ORIGIN = 0x4010, LENGTH = 16K - 16
+    SRAM (rwx) : ORIGIN = 0x00004000, LENGTH = 16K
 }
 ```
 
-- Programs start at `0x4000`
-- PicoRV32 interrupt controller will jump at `0x4010` on interrupt
-- Maximum program size: ~16KB
-- Stack grows downward from end of RAM
+**Memory Organization:**
+- SRAM range: `0x4000 - 0x7FFF` (16KB total)
+- Program entry point: `0x4000` (startup code in `start.S`)
+- IRQ handler: `0x4010` (also in `start.S`, at +16 byte offset)
+- Application code: Follows startup code
+- Maximum program size: 16KB
+- Stack: Grows downward from `0x8000` (top of SRAM)
+
+**Note:** The startup code (`start.S`) is placed at 0x4000 with the IRQ handler at 0x4010, matching PicoRV32's `PROGADDR_IRQ` configuration.
 
 ### Peripheral Access
 
