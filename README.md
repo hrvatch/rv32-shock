@@ -729,43 +729,6 @@ clock enable.
    - Requires Xcelium (or modification for other simulators)
    - Xilinx PLL simulation requires compiled libraries
 
-## Troubleshooting
-
-### Simulation Issues
-
-**Problem**: `XIL_XCELIUM_COMP_LIB` not set
-- **Solution**: Export path to Xcelium-compiled Xilinx libraries
-
-**Problem**: Bender command not found
-- **Solution**: Install bender or add to PATH
-
-### Build Issues
-
-**Problem**: RISC-V toolchain not found
-- **Solution**: Install toolchain and ensure `riscv32-unknown-elf-gcc` is in PATH
-
-**Problem**: Vivado can't find sources
-- **Solution**: Verify `PICORV32_SOC_ROOT` is set correctly
-
-### Upload Issues
-
-**Problem**: Upload script can't open serial port
-- **Solution**: Check device permissions: `sudo chmod 666 /dev/ttyUSB0`
-
-**Problem**: Upload hangs waiting for bootloader
-- **Solution**: Verify FPGA is programmed and bootloader is running
-
-**Problem**: Program doesn't execute after upload
-- **Solution**: Check that program size < 16KB, verify UART connections
-
-### FPGA Issues
-
-**Problem**: Bitstream loads but no UART output
-- **Solution**: Check constraint file pin assignments, verify clock frequency
-
-**Problem**: Timing violations
-- **Solution**: Try different placement seed, enable retiming, reduce target frequency
-
 ## Contributing
 
 Contributions are welcome! Areas for improvement:
