@@ -272,6 +272,15 @@ if { [file exists ${project_name}.xpr] } {
         set ram_init_file ""
         puts "RAM_INIT_FILE not set, using default empty string"
     }
+
+    # Check if BOOTLOADER_INIT_FILE is provided as environment variable
+    if { [info exists env(BOOTLOADER_INIT_FILE)] } {
+        set bootloader_init_file $env(BOOTLOADER_INIT_FILE)
+        puts "Using BOOTLOADER_INIT_FILE from environment: $bootloader_init_file"
+    } else {
+        set bootloader_init_file ""
+        puts "BOOTLOADER_INIT_FILE not set, using default empty string"
+    }
     
     set_property verilog_define [list \
         TARGET_FPGA \
@@ -279,6 +288,7 @@ if { [file exists ${project_name}.xpr] } {
         TARGET_VIVADO \
         TARGET_XILINX \
         RAM_INIT_FILE=\"$ram_init_file\" \
+        BOOTLOADER_INIT_FILE=\"$bootloader_init_file\" \
     ] [current_fileset]
     
     set_property verilog_define [list \
@@ -287,6 +297,7 @@ if { [file exists ${project_name}.xpr] } {
         TARGET_VIVADO \
         TARGET_XILINX \
         RAM_INIT_FILE=\"$ram_init_file\" \
+        BOOTLOADER_INIT_FILE=\"$bootloader_init_file\" \
     ] [current_fileset -simset]
     
     # Add PICORV32 CORE

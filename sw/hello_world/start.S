@@ -140,7 +140,11 @@ _init:
   # Trap if main returns (should never happen)
   ebreak
 
-# Halt picorv32 exectuion until woken up by timer
+# ==============================================================================
+# Helper functions - picorv32 timer, interrupts
+# ==============================================================================
+
+# Halt picorv32 execution until woken up by timer
 .global _set_wake_on_irq
 _set_wake_on_irq:
   picorv32_waitirq_insn(a0)

@@ -6,7 +6,7 @@
 
 #define LED_BASE             0x00002000
 #define UART0_BASE_ADDR      0x00003000
-#ifdef SIM
+#ifndef SIM
 uint32_t const one_second = 100000000;
 #else
 uint32_t const one_second = 5000;
@@ -41,16 +41,6 @@ void uart_hello_world(void)
 
 uint32_t *irq(uint32_t *regs, uint32_t irqs)
 {
-
-  // Trap if either EBREAK/ECALL or Illegal Instruction or BUS Error
-	//if ((irqs & 6) != 0) {
-	//  __asm__ volatile ("ebreak");
-	//}
-
-  //irq_count++;
-  //if (irq_count == 60) {
-  //  __asm__ volatile ("ebreak");
-  //}
 
   // Timer interrupt
   if ((irqs & (1 << 3)) != 0) {

@@ -1,24 +1,28 @@
 package picorv32_soc_pkg;
   import axi_pkg::*;
 
-  // SRAM size
+  // SRAM size 16k
   parameter int unsigned SRAM_WIDTH = 32;
   parameter int unsigned SRAM_DEPTH = 4096;
+
+  // Bootloader ROM size 4k
+  parameter int unsigned BOOTLOADER_ROM_WIDTH_p = 32;
+  parameter int unsigned BOOTLOADER_ROM_DEPTH_p = 1024;
 
   // Number of masters
   // We have only one master: picorv32
   parameter int unsigned AXI_MASTER_NBR_p = 1;
 
   // Number of Slaves
-  // We have 4 slaves:
-  // 1. Scratchpad memory 
+  // We have 5 slaves:
+  // 1. Scratchpad memory (SRAM)
   // 2. UART
   // 3. LEDs
   // 4. Timer/Counter
-  parameter int unsigned AXI_SLAVE_NBR_p = 4;
+  parameter int unsigned AXI_SLAVE_NBR_p = 5;
 
   // AXI address width
-  parameter int unsigned AXI_ADDR_BW_p = 15;
+  parameter int unsigned AXI_ADDR_BW_p = 16;
 
   // AXI data width
   parameter int unsigned AXI_DATA_BW_p = 32;
@@ -27,7 +31,7 @@ package picorv32_soc_pkg;
   parameter axi_pkg::xbar_cfg_t AXI_XBAR_CFG_p = '{
     NoSlvPorts:   AXI_MASTER_NBR_p,
     NoMstPorts:   AXI_SLAVE_NBR_p, 
-    MaxMstTrans:  4,
+    MaxMstTrans:  5,
     MaxSlvTrans:  1,
     FallThrough:  1'b0,
     LatencyMode:  axi_pkg::CUT_ALL_AX,
@@ -41,6 +45,7 @@ package picorv32_soc_pkg;
 
   // AXI address map
   parameter rule_t [AXI_XBAR_CFG_p.NoAddrRules-1:0] AXI_ADDR_MAP_p = '{
+    '{idx: 32'd4, start_addr: 32'h0000_8000, end_addr: 32'h0000_9000}, // Bootloader
     '{idx: 32'd3, start_addr: 32'h0000_4000, end_addr: 32'h0000_8000}, // SRAM (16k) 
     '{idx: 32'd2, start_addr: 32'h0000_3000, end_addr: 32'h0000_4000}, // UART (4k)
     '{idx: 32'd1, start_addr: 32'h0000_2000, end_addr: 32'h0000_3000}, // LEDs (4k)
@@ -162,7 +167,7 @@ package picorv32_soc_pkg;
   parameter bit [31:0] LATCHED_IRQ_p = 32'h ffff_ffff;
 
   // The start address of the program.
-  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_4000;
+  parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_8000;
   
   // The start address of the interrupt handler.
   parameter bit [31:0] PROGADDR_IRQ_p = 32'h 0000_4010;

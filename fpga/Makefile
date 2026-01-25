@@ -7,6 +7,7 @@ PROJECT_NAME := Picorv32_SoC
 # Optional: RAM initialization file path
 # Usage: make vivado_batch_gen_bitstream RAM_INIT_FILE=/path/to/init.hex
 RAM_INIT_FILE ?=
+BOOTLOADER_INIT_FILE ?=
 
 # Vivado commands
 VIVADO := vivado
@@ -42,6 +43,8 @@ help:
 	@echo "Optional variables:"
 	@echo "  RAM_INIT_FILE               - Path to RAM initialization file"
 	@echo "                                Example: make vivado_batch_gen_bitstream RAM_INIT_FILE=/path/to/init.hex"
+	@echo "  BOOTLOADER_INIT_FILE        - Path to bootloader initialization file"
+	@echo "                                Example: make vivado_batch_gen_bitstream BOOTLOADER_INIT_FILE=/path/to/init.hex"
 	@echo "  BIT                         - Custom bitstream path for program_custom"
 	@echo "                                Example: make program_custom BIT=my_design.bit"
 	@echo ""
@@ -61,18 +64,21 @@ vivado_gui:
 vivado_batch_syn:
 	@echo "Running synthesis in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
+	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
 	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs synth
 
 # Batch place and route (implementation)
 vivado_batch_pnr:
 	@echo "Running synthesis + implementation in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
+	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
 	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs impl
 
 # Batch bitstream generation
 vivado_batch_gen_bitstream:
 	@echo "Running full flow + bitstream generation in batch mode..."
 	@export RAM_INIT_FILE="$(RAM_INIT_FILE)"; \
+	export BOOTLOADER_INIT_FILE="$(BOOTLOADER_INIT_FILE)"; \
 	$(VIVADO) $(VIVADO_FLAGS) $(TCL_DIR)/vivado_batch.tcl -tclargs bitstream
 
 # Program FPGA (volatile - lost on power cycle)

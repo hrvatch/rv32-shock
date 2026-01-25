@@ -8,27 +8,24 @@ ABI = ilp32
 
 CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall
 CFLAGS += -ffreestanding -nostdlib
-LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T picorv32.ld
+LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T bootloader.ld
 CFLAGS += -ffunction-sections -fdata-sections -Os -flto
 LDFLAGS += -Wl,--gc-sections -flto
 
-all: firmware.hex firmware.lst
+all: bootloader.hex bootloader.lst
 
-firmware.elf: start.o main.o uart.o picorv32.ld
-	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o
+bootloader.elf: bootloader.o bootloader.ld
+	$(CC) $(LDFLAGS) -o $@ bootloader.o 
 	$(CROSS)size $@
 
-firmware.bin: firmware.elf
+bootloader.bin: bootloader.elf
 	$(OBJCOPY) -O binary $< $@
 
-firmware.hex: firmware.bin
+bootloader.hex: bootloader.bin
 	python3 ../tools/makehex.py $< > $@
 
-firmware.lst: firmware.elf
+bootloader.lst: bootloader.elf
 	$(OBJDUMP) -d -S $< > $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
 
 %.o: %.S
 	$(CC) $(CFLAGS) -c -o $@ $<
