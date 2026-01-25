@@ -23,7 +23,7 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 
 ## Shock Block Diagram
 
-![PicoRV32 block diagram](../img/shock_soc.drawio.svg)
+![PicoRV32 block diagram](https://raw.githubusercontent.com/hrvatch/shock/refs/heads/main/img/shock_soc.drawio.svg)
 
 ### Memory Map
 
