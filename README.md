@@ -23,7 +23,7 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 
 ## RV32-Shock Block Diagram
 
-![PicoRV32 block diagram](https://raw.githubusercontent.com/hrvatch/shock/refs/heads/main/img/shock_soc.drawio.svg)
+![PicoRV32 block diagram](https://raw.githubusercontent.com/hrvatch/rv32-shock/refs/heads/main/img/shock_soc.drawio.svg)
 
 ### Memory Map
 
@@ -84,7 +84,7 @@ All custom peripherals include:
 ## Repository Structure
 
 ```
-shock/
+rv32-shock/
 ├── fpga/                     # FPGA build files
 │   ├── Makefile              # Build and programming automation
 │   ├── sim/                  # FPGA simulation files
@@ -154,8 +154,8 @@ shock/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/hrvatch/shock.git
-cd shock
+git clone https://github.com/hrvatch/rv32-shock.git
+cd rv32-shock
 ```
 
 ### 2. Initialize Submodules
