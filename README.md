@@ -1,8 +1,8 @@
-# Shock - Simple PicoRV32-based SoC
+# RV32-Shock - Simple PicoRV32-based SoC
 
 ## Overview
 
-Shock is a simple PicoRV32-based System-on-Chip (SoC) designed for FPGA implementation. The SoC contains basic peripherals essential for embedded systems development:
+RV32-Shock is a simple PicoRV32-based System-on-Chip (SoC) designed for FPGA implementation. The SoC contains basic peripherals essential for embedded systems development:
 
 - **Timer/Counter** - Programmable timer with interrupt support
 - **GPIO** - Simple GPIO for controlling LEDs
@@ -21,7 +21,7 @@ This project targets the **Digilent Nexys Video** platform but is designed for p
 - **Maximum Frequency**: ~109 MHz on Xilinx XC7A200T-1 (Speed Grade -1)
 - **UART Bootloader**: Upload programs to SRAM without reprogramming FPGA
 
-## Shock Block Diagram
+## RV32-Shock Block Diagram
 
 ![PicoRV32 block diagram](https://raw.githubusercontent.com/hrvatch/shock/refs/heads/main/img/shock_soc.drawio.svg)
 
@@ -40,7 +40,7 @@ trigger ('R' character) to receive a new program.
 
 ## Component Reuse
 
-Shock leverages high-quality, proven IP cores:
+RV32-Shock leverages high-quality, proven IP cores:
 
 ### PicoRV32 CPU Core
 
@@ -176,7 +176,7 @@ Create a script to set up your environment (e.g., `setup_env.sh`):
 ```bash
 #!/bin/bash
 
-# Set Shock repository root
+# Set RV32-Shock repository root
 export PICORV32_SOC_ROOT=$(pwd)
 
 # Xilinx Vivado (adjust path to your installation)
@@ -189,7 +189,7 @@ export XIL_XCELIUM_COMP_LIB=/path/to/xcelium/compiled/xilinx/libs
 # RISC-V toolchain (if not in system PATH)
 export PATH=/opt/riscv/bin:$PATH
 
-echo "Shock environment configured"
+echo "RV32-Shock environment configured"
 echo "PICORV32_SOC_ROOT: $PICORV32_SOC_ROOT"
 ```
 
@@ -410,7 +410,7 @@ Example `main.c`:
 
 int main() {
     uart_init();
-    uart_puts("Hello from Shock SoC!\n");
+    uart_puts("Hello from RV32-Shock SoC!\n");
     
     while (1) {
         // Your code here
@@ -606,8 +606,8 @@ Based on post-implementation reports from Vivado 2025.2:
 - LUT as Distributed RAM: 144 (0.31%)
 
 **BRAM Usage:**
-- Bootloader ROM: ~1 BRAM (4KB)
-- SRAM: ~4 BRAM (16KB)
+- Bootloader ROM: 1 BRAM (4KB)
+- SRAM: 4 BRAM (16KB)
 
 **DSP Usage:**
 - Fast Multiplier (PicoRV32): 4 DSP48E1 blocks
@@ -677,7 +677,7 @@ This project consists of multiple components with different licenses:
 - **PicoRV32**: ISC License
 - **PULP AXI**: Apache License 2.0
 - **Custom peripherals**: MIT License
-- **Shock integration code**: MIT License
+- **RV32-Shock integration code**: MIT License
 
 See individual component repositories for detailed license information.
 
