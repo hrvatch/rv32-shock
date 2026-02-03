@@ -14,8 +14,8 @@ LDFLAGS += -Wl,--gc-sections -flto
 
 all: firmware.hex firmware.lst
 
-firmware.elf: start.o main.o uart.o picorv32.ld
-	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o
+firmware.elf: start.o main.o timer_driver.o uart.o picorv32.ld
+	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o timer_driver.o
 	$(CROSS)size $@
 
 firmware.bin: firmware.elf

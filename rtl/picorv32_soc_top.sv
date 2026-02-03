@@ -34,8 +34,7 @@ module picorv32_soc_top
   logic [31:0] s_irq;
   logic [31:0] s_eoi;
 
-  assign s_irq[2:0]  = '0;
-  assign s_irq[31:6] = '0;
+  assign s_irq[31:2] = '0;
 
   AXI_LITE #(
     .AXI_ADDR_WIDTH ( AXI_ADDR_BW_p ),
@@ -180,7 +179,7 @@ module picorv32_soc_top
     .o_axi_rvalid   ( axi_slave_intf[2].r_valid       ),
     .i_uart_rx      ( i_uart_tx                       ),
     .o_uart_tx      ( o_uart_rx                       ),
-    .o_irq          ( s_irq[5]                        )
+    .o_irq          ( s_irq[1]                        )
   );
 
   // AXI LED module
@@ -231,8 +230,7 @@ module picorv32_soc_top
     .o_axi_rdata    ( axi_slave_intf[0].r_data         ),
     .o_axi_rresp    ( axi_slave_intf[0].r_resp         ),
     .o_axi_rvalid   ( axi_slave_intf[0].r_valid        ),
-    .o_cnt0_done    ( s_irq[3]                         ),
-    .o_cnt1_done    ( s_irq[4]                         )
+    .o_irq          ( s_irq[0]                         )
   );
 
   // PicoRV32 instance

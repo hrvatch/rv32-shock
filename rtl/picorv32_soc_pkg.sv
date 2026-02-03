@@ -170,7 +170,7 @@ package picorv32_soc_pkg;
   // the interrupt handler is called (aka "pulse interrupts" or "edge-triggered interrupts").
   // Set a bit in this bitmask to 0 to convert an interrupt line to operate as "level sensitive"
   // interrupt.
-  parameter bit [31:0] LATCHED_IRQ_p = 32'h ffff_ffff;
+  parameter bit [31:0] LATCHED_IRQ_p = 32'h ffff_fffc;
 
   // The start address of the program.
   parameter bit [31:0] PROGADDR_RESET_p = 32'h 0000_8000;
