@@ -1,0 +1,57 @@
+#ifndef __IRQ_H
+#define __IRQ_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PicoRV32 has a very limited interrupt support, implemented via custom
+// instructions. It also doesn't have a global interrupt enable/disable, so
+// we have to emulate it via saving and restoring a mask and using 0/~1 as a
+// hardware mask.
+// Due to all this somewhat low-level mess, all of the glue is implemented in
+// the RiscV start.S, and this header is kept as a thin wrapper. Since interrupts
+// managed by this layer, do not call interrupt instructions directly, as the
+// state will go out of sync with the hardware.
+
+// Read only.
+extern unsigned int _irq_mask;
+// Read only.
+extern unsigned int _irq_enabled;
+extern void _irq_enable(void);
+extern void _irq_disable(void);
+extern void _irq_setmask(unsigned int);
+extern void _set_wake_on_irq(unsigned int);
+
+static inline void halt_execution_and_wake_on_irq(unsigned int mask) {
+  _set_wake_on_irq(mask);
+}
+
+static inline unsigned int irq_getie(void)
+{
+	return _irq_enabled != 0;
+}
+
+static inline void irq_setie(unsigned int ie)
+{
+    if (ie & 0x1)
+        _irq_enable();
+    else
+        _irq_disable();
+}
+
+static inline unsigned int irq_getmask(void)
+{
+    return _irq_mask;
+}
+
+static inline void irq_setmask(unsigned int mask)
+{
+    _irq_setmask(mask);
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __IRQ_H */

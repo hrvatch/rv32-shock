@@ -6,6 +6,11 @@ ifndef XIL_XCELIUM_COMP_LIB
 $(error XIL_XCELIUM_COMP_LIB is not set)
 endif
 
+# Optional: RAM initialization file path
+# Usage: make sim_batch RAM_INIT_FILE=/path/to/init.hex BOOTLOADER_INIT_FILE=/path/to/init.hex
+RAM_INIT_FILE ?=
+BOOTLOADER_INIT_FILE ?=
+
 AXI_FLIST_FILE=$(PICORV32_SOC_ROOT)/src/axi/axi.f
 
 XRUN_ARGS=
@@ -24,6 +29,8 @@ XRUN_ARGS+= -reflib $(XIL_XCELIUM_COMP_LIB)/unimacro:unimacro
 XRUN_ARGS+= -reflib $(XIL_XCELIUM_COMP_LIB)/unimacro_ver:unimacro_ver
 XRUN_ARGS+= +define+SIM
 XRUN_ARGS+= +define+ASSERTS_OFF
+XRUN_ARGS+= +define+BOOTLOADER_INIT_FILE=\\\"$(BOOTLOADER_INIT_FILE)\\\"
+XRUN_ARGS+= +define+RAM_INIT_FILE=\\\"$(RAM_INIT_FILE)\\\"
 
 .PHONY: axi_file_list sim_batch sim_gui clean help
 
@@ -48,3 +55,9 @@ help:
 	@echo "  sim_batch     - Run simulation in batch mode"
 	@echo "  sim_gui       - Run simulation with GUI"
 	@echo "  clean         - Remove simulation artifacts"
+	@echo ""
+	@echo "Optional variables:"
+	@echo "  RAM_INIT_FILE               - Path to RAM initialization file"
+	@echo "                                Example: make sim_gui RAM_INIT_FILE=/path/to/init.hex"
+	@echo "  BOOTLOADER_INIT_FILE        - Path to bootloader initialization file"
+	@echo "                                Example: make sim_gui BOOTLOADER_INIT_FILE=/path/to/init.hex"

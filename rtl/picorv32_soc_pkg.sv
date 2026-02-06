@@ -83,7 +83,8 @@ package picorv32_soc_pkg;
   // Set this to 1 if the mem_rdata is kept stable by the external circuit after a transaction. In
   // the default configuration the PicoRV32 core only expects the mem_rdata input to be valid in the
   // cycle with mem_valid && mem_ready and latches the value internally.
-  parameter bit LATCHED_MEM_RDATA_p = 1;
+  // NOTE: This parameter is not used in AXI4-Lite variant of the PicoRV32
+  parameter bit LATCHED_MEM_RDATA_p = 0;
 
   // By default shift operations are performed in two stages: first shifts in units of 4 bits and
   // then shifts in units of 1 bit. This speeds up shift operations, but adds additional hardware.
