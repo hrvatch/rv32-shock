@@ -6,7 +6,7 @@ OBJDUMP = $(CROSS)objdump
 ARCH = rv32imc
 ABI = ilp32
 
-CFLAGS = -march=$(ARCH) -mabi=$(ABI) -O2 -Wall
+CFLAGS = -march=$(ARCH) -mabi=$(ABI) -Wall -O2
 CFLAGS += -ffreestanding -nostdlib
 LDFLAGS = -march=$(ARCH) -mabi=$(ABI) -nostdlib -T picorv32.ld
 CFLAGS += -ffunction-sections -fdata-sections -Os -flto
@@ -14,8 +14,8 @@ LDFLAGS += -Wl,--gc-sections -flto
 
 all: firmware.hex firmware.lst
 
-firmware.elf: start.o main.o timer_driver.o uart.o picorv32.ld
-	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o timer_driver.o
+firmware.elf: start.o main.o timer.o uart.o picorv32.ld
+	$(CC) $(LDFLAGS) -o $@ start.o main.o uart.o timer.o
 	$(CROSS)size $@
 
 firmware.bin: firmware.elf

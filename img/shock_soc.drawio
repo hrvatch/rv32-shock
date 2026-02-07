@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0" scale="1" border="0" version="29.3.8">
+  <diagram name="Page-1" id="zzrWTdOnAZDTmVXbNrd_">
+    <mxGraphModel dx="783" dy="1056" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tp-P61ylEKLxES7mq4SX-3" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="tp-P61ylEKLxES7mq4SX-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;PicoRV32&lt;/div&gt;&lt;div&gt;(RV32IMC)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="340" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="AXI4-Lite Crossbar (PULP Platform)" vertex="1">
+          <mxGeometry height="40" width="760" x="40" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Timer/Counter&lt;/div&gt;&lt;div&gt;(0x1000)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="40" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-12" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="tp-P61ylEKLxES7mq4SX-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;UART&lt;/div&gt;&lt;div&gt;(0x3000)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="360" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;GPIO (LEDs)&lt;/div&gt;&lt;div&gt;(0x2000)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="200" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;SRAM&lt;/div&gt;&lt;div&gt;(0x4000-0x7FFF)&lt;/div&gt;&lt;div&gt;16KB&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="520" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Bootloader ROM&lt;/div&gt;&lt;div&gt;(0x8000-0x8FFF)&lt;/div&gt;&lt;div&gt;4KB&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="680" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="CCR (Clock and reset generator, vendor specific PLL wrapper)" vertex="1">
+          <mxGeometry height="70" width="160" x="580" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-15" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.711;entryY=1.058;entryDx=0;entryDy=0;entryPerimeter=0;" target="tp-P61ylEKLxES7mq4SX-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-16" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.289;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="tp-P61ylEKLxES7mq4SX-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-17" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.079;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="tp-P61ylEKLxES7mq4SX-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tp-P61ylEKLxES7mq4SX-18" edge="1" parent="1" source="tp-P61ylEKLxES7mq4SX-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.921;entryY=1.058;entryDx=0;entryDy=0;entryPerimeter=0;" target="tp-P61ylEKLxES7mq4SX-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
