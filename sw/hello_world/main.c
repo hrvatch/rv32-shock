@@ -13,7 +13,6 @@ uint32_t const one_second_timer     = 9999;
 
 volatile uint32_t *leds = (volatile uint32_t *)LED_BASE;
 volatile uint32_t *text = (volatile uint32_t *)(LED_BASE + 4);
-volatile uint32_t irq_count = 0;
 
 static uart_t uart0;
 static timer_t timer0;
@@ -23,11 +22,6 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
   // Timer interrupt
   if (timer_get_status(&timer0)) {
     *leds = (*leds << 1) | ((*leds & (1 << 7)) >> 7);
-    irq_count++;
-  }
-
-  if (irq_count == 50) {
-    __asm__ volatile ("ebreak");
   }
 
   return regs;
